@@ -10,6 +10,16 @@ export class TeacherService {
     return this.prisma.teacher.findMany();
   }
 
+  findAllFilteredByEmail(emailSubstring?: string): Promise<PrismaTeacher[]> {
+    const whereClause = emailSubstring
+      ? { email: { contains: emailSubstring } }
+      : {};
+
+    return this.prisma.teacher.findMany({
+      where: whereClause,
+    });
+  }
+
   findOne(id: number): Promise<PrismaTeacher | null> {
     return this.prisma.teacher.findUnique({ where: { id } });
   }

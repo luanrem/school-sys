@@ -8,7 +8,9 @@ type Mutation {
 
 type Query {
   students: [Student!]!
-  teachers: [Teacher!]!
+
+  """List teachers, optionally filtering by email substring"""
+  teachers(filter: TeacherFilterInput): [Teacher!]!
 }
 
 type Student {
@@ -23,4 +25,9 @@ type Teacher {
   firstName: String!
   id: Int!
   lastName: String!
+}
+
+input TeacherFilterInput {
+  """Substring to match in email"""
+  emailContains: String
 }
