@@ -21,3 +21,11 @@ model Student {
   email     String @unique
   // …
 }
+
+model Teacher {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String @unique
+  // add extra fields as needed, e.g. subjects taught
+}

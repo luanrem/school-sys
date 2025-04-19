@@ -5,19 +5,33 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-  const total = 50; // how many students to create
-
-  const studentsData = Array.from({ length: total }).map(() => ({
+  // 1) Seed Students
+  const studentCount = 50;
+  const studentsData = Array.from({ length: studentCount }).map(() => ({
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
   }));
 
-  console.log(`Seeding ${total} students...`);
+  console.log(`Seeding ${studentCount} students...`);
   await Promise.all(
     studentsData.map((data) => prisma.student.create({ data })),
   );
-  console.log('Seeding finished.');
+  console.log('Students seeding finished.');
+
+  // 2) Seed Teachers
+  const teacherCount = 20;
+  const teachersData = Array.from({ length: teacherCount }).map(() => ({
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+  }));
+
+  console.log(`Seeding ${teacherCount} teachers...`);
+  await Promise.all(
+    teachersData.map((data) => prisma.teacher.create({ data })),
+  );
+  console.log('Teachers seeding finished.');
 }
 
 main()
@@ -26,5 +40,6 @@ main()
     process.exit(1);
   })
   .finally(() => {
+    // explicitly ignore the disconnect promise
     void prisma.$disconnect();
   });

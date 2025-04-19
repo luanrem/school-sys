@@ -5,6 +5,7 @@ import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from './prisma/prisma.module';
 import { StudentModule } from './student/student.module';
+import { TeacherModule } from './teacher/teacher.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { StudentModule } from './student/student.module';
     }),
     PrismaModule,
     StudentModule,
+    TeacherModule,
   ],
   controllers: [],
   providers: [AppService],
