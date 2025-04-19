@@ -15,7 +15,7 @@ export class TeacherResolver {
     @Args('filter', { type: () => TeacherFilterInput, nullable: true })
     filter?: TeacherFilterInput,
   ): Promise<Teacher[]> {
-    return this.teacherService.findAllFilteredByEmail(filter?.emailContains);
+    return this.teacherService.findAllFiltered(filter);
   }
 
   @Mutation(() => Teacher)

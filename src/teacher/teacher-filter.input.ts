@@ -1,5 +1,5 @@
 // src/teacher/teacher-filter.input.ts
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class TeacherFilterInput {
@@ -8,4 +8,10 @@ export class TeacherFilterInput {
     description: 'Substring to match in email',
   })
   emailContains?: string;
+
+  @Field(() => Int, {
+    nullable: true,
+    description: 'Exact match on teacher ID',
+  })
+  idEquals?: number;
 }

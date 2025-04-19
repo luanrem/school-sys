@@ -30,4 +30,7 @@ type Teacher {
 input TeacherFilterInput {
   """Substring to match in email"""
   emailContains: String
+
+  """Exact match on teacher ID"""
+  idEquals: Int
 }

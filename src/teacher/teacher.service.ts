@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import type { Teacher as PrismaTeacher } from '@prisma/client';
+import { TeacherFilterInput } from './teacher-filter.input';
 
 @Injectable()
 export class TeacherService {
@@ -10,14 +11,21 @@ export class TeacherService {
     return this.prisma.teacher.findMany();
   }
 
-  findAllFilteredByEmail(emailSubstring?: string): Promise<PrismaTeacher[]> {
-    const whereClause = emailSubstring
-      ? { email: { contains: emailSubstring } }
-      : {};
+  findAllFiltered(filter?: TeacherFilterInput): Promise<PrismaTeacher[]> {
+    // Build an array of conditions
+    const andConditions: Record<string, any>[] = [];
 
-    return this.prisma.teacher.findMany({
-      where: whereClause,
-    });
+    if (filter?.emailContains) {
+      andConditions.push({ email: { contains: filter.emailContains } });
+    }
+    if (filter?.idEquals != null) {
+      andConditions.push({ id: filter.idEquals });
+    }
+
+    // If no filters, you'll get all records
+    const where = andConditions.length > 0 ? { AND: andConditions } : {};
+
+    return this.prisma.teacher.findMany({ where });
   }
 
   findOne(id: number): Promise<PrismaTeacher | null> {
